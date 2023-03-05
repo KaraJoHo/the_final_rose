@@ -1,0 +1,12 @@
+<h1><%=@contestant.name%></h1>
+
+<div class = "contestant_info">
+  <p>Name: <%=@contestant.name%> </p>
+  <p>Description: <%= @contestant.bachelorette.season.description %></p>
+</div>
+
+<div class = "outings">
+  <% @contestant.outings.each do |outing| %>
+    <%= link_to "#{outing.name}", outing_path(outing) %>
+  <% end %>
+</div>
