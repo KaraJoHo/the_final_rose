@@ -64,5 +64,9 @@ RSpec.describe 'Bachelorette Contestant Index Page' do
       click_link("#{@c_1.name}")
       expect(current_path).to eq(contestant_path(@c_1))
     end
+
+    it 'has a unique list of contestants hometowns' do 
+      expect(page).to have_content("These Contestants are from these hometowns: Austin, Denver")
+    end
   end
 end

@@ -36,4 +36,10 @@ RSpec.describe Bachelorette, type: :model do
       expect(@bachelorette.contestant_average_age.to_f.round(1)).to eq(111.7)
     end
   end
+
+  describe '#contestant_hometowns' do 
+    it 'is a unique list of hometowns of the contestants' do 
+      expect(@bachelorette.contestant_hometowns).to match_array(["Denver", "Austin"])
+    end
+  end
 end
