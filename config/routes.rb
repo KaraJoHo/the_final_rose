@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   resources :bachelorettes do 
     resources :contestants, only: :index
   end
+
+  resources :contestants, only: :show
 end
