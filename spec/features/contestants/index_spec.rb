@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Bachelorette Show Page' do 
+RSpec.describe 'Bachelorette Contestant Index Page' do 
   before(:each) do 
     @season15 = Season.create!(description: "Crazy. It was like so crazy")
     @season16 = Season.create!(description: "It was subpar")
@@ -24,22 +24,45 @@ RSpec.describe 'Bachelorette Show Page' do
     @c_o_4 = ContestantOuting.create!(contestant_id: @c_2.id, outing_id: @outing_1.id)
     @c_o_5 = ContestantOuting.create!(contestant_id: @c_3.id, outing_id: @outing_1.id)
     @c_o_6 = ContestantOuting.create!(contestant_id: @c_3.id, outing_id: @outing_2.id)
-    visit bachelorette_path(@bachelorette)
+    visit bachelorette_contestants_path(@bachelorette)
   end
-  describe 'user story 1' do 
-    it 'has name, season number/description, link to contestants' do 
-      within(".bachelorette_information") do 
-        expect(page).to have_content(@bachelorette.name)
-        expect(page).to have_content(@bachelorette.season_number)
-        expect(page).to have_content(@season15.description)
-      
-        expect(page).to_not have_content(@bachelorette_2.name)
-        expect(page).to have_link("Contestants")
+
+  describe 'user story 2' do 
+    it 'has the names of all the contestants with their age and home town' do 
+      within("#contestant_#{@c_1.id}") do 
+        
+        expect(page).to have_content(@c_1.name)
+        expect(page).to have_content(@c_1.age)
+        expect(page).to have_content(@c_1.hometown)
+        expect(page).to_not have_content(@c_2.name)
+        expect(page).to_not have_content(@c_3.name)
       end
+
+       within("#contestant_#{@c_2.id}") do 
+        expect(page).to have_content(@c_2.name)
+        expect(page).to have_content(@c_2.age)
+        expect(page).to have_content(@c_2.hometown)
+        expect(page).to_not have_content(@c_1.name)
+        expect(page).to_not have_content(@c_3.name)
+       end
+
+       within("#contestant_#{@c_3.id}") do 
+        expect(page).to have_content(@c_3.name)
+        expect(page).to have_content(@c_3.age)
+        expect(page).to have_content(@c_3.hometown)
+        expect(page).to_not have_content(@c_2.name)
+        expect(page).to_not have_content(@c_1.name)
+      end
+      expect(page).to_not have_content(@c_4.name)
     end
-    it 'can navigate to the page of the bachelors contestants after clicking the link' do 
-      click_link("Contestants")
-      expect(current_path).to eq(bachelorette_contestants_path(@bachelorette))
+
+    it 'each name is a link to that contestants show page' do 
+      expect(page).to have_link("#{@c_1.name}")
+      expect(page).to have_link("#{@c_2.name}")
+      expect(page).to have_link("#{@c_3.name}")
+
+      click_link("#{@c_1.name}")
+      expect(current_path).to eq(contestant_path(@c_1))
     end
   end
 end
