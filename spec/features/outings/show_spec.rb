@@ -1,11 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Outing do 
-  describe 'relationships' do 
-    it {should have_many(:contestant_outings)}
-    it {should have_many(:contestants).through(:contestant_outings)}
-  end
-
+RSpec.describe 'Bachelorette Contestant Index Page' do 
   before(:each) do 
     @season15 = Season.create!(description: "Crazy. It was like so crazy")
     @season16 = Season.create!(description: "It was subpar")
@@ -29,16 +24,26 @@ RSpec.describe Outing do
     @c_o_4 = ContestantOuting.create!(contestant_id: @c_2.id, outing_id: @outing_1.id)
     @c_o_5 = ContestantOuting.create!(contestant_id: @c_3.id, outing_id: @outing_1.id)
     @c_o_6 = ContestantOuting.create!(contestant_id: @c_3.id, outing_id: @outing_2.id)
+    visit outing_path(@outing_1)
   end 
 
-  describe '#number_of_contestants' do 
-    it 'is the number of contestants on an outing' do 
-      expect(@outing_1.number_of_contestants).to eq(3)
+  describe 'user story 4' do 
+    it 'has the name, location and date, total count of contestants, and their names' do 
+      within(".outing_info") do 
+        expect(page).to have_content(@outing_1.name)
+        expect(page).to have_content(@outing_1.location)
+        expect(page).to have_content(@outing_1.date)
+        expect(page).to_not have_content(@outing_2.name)
+        expect(page).to_not have_content(@outing_3.location)
+        expect(page).to_not have_content(@outing_3.date)
+      end
     end
-  end
-  describe "#contestant_names" do 
-    it 'is a list of contestant names' do 
-      expect(@outing_1.contestant_names).to eq(["Tom", "Bob", "Benedict"])
+
+    it 'has a total count of contestants on the outing' do 
+      within(".contestant_info") do 
+        expect(page).to have_content("Number of Contestants: 3")
+        expect(page).to have_content("Contestants: Tom, Bob, Benedict")
+      end
     end
   end
 end
