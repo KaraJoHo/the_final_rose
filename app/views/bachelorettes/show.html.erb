@@ -6,3 +6,5 @@
   <p>Season Description: <%=@bachelorette.season.description %></p>
   <%= link_to "Contestants", bachelorette_contestants_path(@bachelorette)%>
 </div>
+
+<p>Contestant Average Age: <%=@bachelorette.contestant_average_age.to_f.round(1)%></p>
