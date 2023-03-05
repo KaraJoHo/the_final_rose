@@ -1,0 +1,8 @@
+<h1><%=@bachelorette.name%></h1>
+
+<div class = "bachelorette_information">
+  <p>Bachelorette Name: <%=@bachelorette.name%></p>
+  <p>Season Number: <%= @bachelorette.season_number%></p>
+  <p>Season Description: <%=@bachelorette.season.description %></p>
+  <%= link_to "Contestants", bachelorette_contestants_path(@bachelorette)%>
+</div>
